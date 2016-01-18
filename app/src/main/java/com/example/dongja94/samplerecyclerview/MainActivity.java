@@ -2,8 +2,10 @@ package com.example.dongja94.samplerecyclerview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -29,12 +31,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView)findViewById(R.id.recycler);
         mAdapter = new MyAdapter();
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                MyData data = mAdapter.getItem(position);
+                Toast.makeText(MainActivity.this, "data : " + data.title, Toast.LENGTH_SHORT).show();
+            }
+        });
         recyclerView.setAdapter(mAdapter);
 
-//        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 //        layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
-        layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL);
+//        layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new MyDecoration(this));
 
         initData();
     }

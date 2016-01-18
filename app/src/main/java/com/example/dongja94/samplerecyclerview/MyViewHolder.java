@@ -11,11 +11,23 @@ import android.widget.TextView;
 public class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView iconView;
     TextView titleView;
-    View view;
     MyData data;
+
+    public OnItemClickListener itemClickListener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
     public MyViewHolder(View itemView) {
         super(itemView);
-        view = itemView;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(v, getAdapterPosition());
+                }
+            }
+        });
         iconView = (ImageView)itemView.findViewById(R.id.image_icon);
         titleView = (TextView)itemView.findViewById(R.id.text_title);
     }
